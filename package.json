@@ -1,7 +1,7 @@
 {
   "name": "gptreview",
   "version": "0.0.1",
-  "description": "",
+  "description": "Code review using gpt3.5",
   "main": "./src/index.js",
   "bin": {
     "gptreview": "./src/index.js"
