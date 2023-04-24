@@ -1,5 +1,5 @@
-# Code Review Assistant
-Code Review Assistant is a command-line tool that leverages OpenAI's GPT-3.5 to provide code reviews for Git branch differences. Get insightful code reviews in your preferred language, directly from the command line!
+# gptreview
+gptreview is a command-line tool that leverages OpenAI's GPT-3.5 to provide code reviews for Git branch differences. Get insightful code reviews in your preferred language, directly from the command line!
 
 ## Requirements
 
@@ -12,10 +12,10 @@ Set your OpenAI API key as an environment variable:
 ``` sh
 export OPENAI_API_KEY=yourapikey
 ```
-Run Code Review Assistant with the following command:
+Run gptreview with the following command:
 
-sh
-```
+
+``` sh
 npx gptreview [options]
 ```
 

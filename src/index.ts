@@ -68,7 +68,7 @@ type Options = {
 };
 
 program
-  .version("0.0.1")
+  .version("0.0.2")
   .description("Get review")
   .option("-l, --lang <language>", "Specify the language for the code review")
   .option(
