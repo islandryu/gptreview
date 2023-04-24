@@ -1,0 +1,33 @@
+{
+  "name": "gptreview",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "gptreview": "./index.js"
+  },
+  "scripts": {
+    "format": "prettier --write src",
+    "build": "tsc"
+  },
+  "repository": "https://github.com/islandryu/gptreview.git",
+  "author": "SHIMA RYUHEI <65934663+islandryu@users.noreply.github.com> (https://github.com/islandryu)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/islandryu/gptreview/issues"
+  },
+  "homepage": "https://github.com/islandryu/gptreview#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "chatgpt": "^5.2.2",
+    "commander": "^10.0.1",
+    "isomorphic-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.0",
+    "prettier": "^2.8.8",
+    "ts-node": "^10.9.1"
+  }
+}
