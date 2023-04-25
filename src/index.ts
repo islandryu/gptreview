@@ -2,6 +2,7 @@
 require("isomorphic-fetch");
 const { execSync } = require("child_process");
 const { program } = require("commander");
+const chalk = require("chalk");
 
 const API_KEY = process.env.OPENAI_API_KEY;
 const LANG = "english";
@@ -18,7 +19,7 @@ async function getAnswer(prompt: string) {
       },
     });
     const answer = await chatgpt.sendMessage(prompt);
-    console.log(answer.text);
+    return answer.text
   } catch (error) {
     console.error("Error fetching answer:", error);
   }
@@ -41,23 +42,45 @@ function getCurrentBranch() {
   return currentBranch;
 }
 
-function getReview(options: Options) {
+async function getReview(options: Options, file: string) {
   const source = options.source || getCurrentBranch();
   const target = options.target || "main";
 
-  const result = execSync(`git diff ${target}...${source}`, {
+  const result = execSync(`git diff ${target}...${source} -- "${file}"`, {
     encoding: "utf-8",
   });
   const lang = options.lang || LANG;
 
-  const propmt = `
-Here is a git diff, please do a code review in the ${lang} language.
+  const prompt = `
+Here is a git diff of file ${file}, please do a code review in the ${lang} language.
+List the problems in the ${lang} language.
+"""
 ${result}
+"""
   `;
+  const answer = await getAnswer(prompt);
+  console.log(chalk.green(`\n${file}`));
   if (options.showPrompt) {
-    console.log(propmt);
+    console.log(prompt);
   }
-  getAnswer(propmt);
+  console.log(answer);
+}
+
+// (snip)
+
+function runReviews(options: Options) {
+  const source = options.source || getCurrentBranch();
+  const target = options.target || "main";
+
+  const files:string[] = execSync(`git diff --name-only ${target}...${source}`, {
+    encoding: "utf-8",
+  })
+    .trim()
+    .split("\n");
+
+  files.forEach((file) => {
+    getReview(options, file);
+  });
 }
 
 type Options = {
@@ -68,7 +91,7 @@ type Options = {
 };
 
 program
-  .version("0.0.2")
+  .version("0.0.3")
   .description("Get review")
   .option("-l, --lang <language>", "Specify the language for the code review")
   .option(
@@ -81,6 +104,6 @@ program
   )
   .option("-p, --show-prompt", "Show the prompt sent to ChatGPT", false)
   .action((options: Options) => {
-    getReview(options);
+    runReviews(options);
   })
   .parse(process.argv);
